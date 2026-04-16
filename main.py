@@ -4,35 +4,19 @@ from pymongo import MongoClient
 from bson import ObjectId
 import gridfs
 import io
-import os
 
 app = FastAPI()
 
-# =========================
-# MongoDB Connection
-# =========================
-MONGO_URI = os.getenv(
-    "MONGO_URI",
-    "mongodb+srv://USERNAME:PASSWORD@cluster0.mongodb.net/?retryWrites=true&w=majority"
-)
+# MongoDB Atlas connection
+MONGO_URI = "mongodb+srv://pramanandasarkar02_db_user:diOxske9Uiao2oPC@cluster0.iefyzqw.mongodb.net/?appName=Cluster0"
 
 client = MongoClient(MONGO_URI)
 db = client["media_database"]
 fs = gridfs.GridFS(db)
 
 
-# =========================
-# Health Check
-# =========================
+
 @app.get("/")
-def root():
-    return {"status": "API running"}
-
-
-# =========================
-# List all files
-# =========================
-@app.get("/files/")
 def list_all_files():
     files = []
 
@@ -41,7 +25,7 @@ def list_all_files():
             "id": str(f["_id"]),
             "filename": f.get("filename"),
             "content_type": f.get("contentType"),
-            "media_type": f.get("metadata", {}).get("media_type")
+            "media_type": f.get("media_type")  # image / video / audio
         })
 
     return {
@@ -49,10 +33,6 @@ def list_all_files():
         "files": files
     }
 
-
-# =========================
-# Upload IMAGE
-# =========================
 @app.post("/images/")
 async def upload_image(file: UploadFile = File(...)):
     if not file.content_type.startswith("image/"):
@@ -64,15 +44,15 @@ async def upload_image(file: UploadFile = File(...)):
         content,
         filename=file.filename,
         content_type=file.content_type,
-        metadata={"media_type": "image"}
+        media_type="image"
     )
 
-    return {"message": "Image uploaded", "id": str(file_id)}
+    return {
+        "message": "Image uploaded successfully",
+        "id": str(file_id)
+    }
 
 
-# =========================
-# Upload VIDEO
-# =========================
 @app.post("/videos/")
 async def upload_video(file: UploadFile = File(...)):
     if not file.content_type.startswith("video/"):
@@ -84,15 +64,15 @@ async def upload_video(file: UploadFile = File(...)):
         content,
         filename=file.filename,
         content_type=file.content_type,
-        metadata={"media_type": "video"}
+        media_type="video"
     )
 
-    return {"message": "Video uploaded", "id": str(file_id)}
+    return {
+        "message": "Video uploaded successfully",
+        "id": str(file_id)
+    }
 
 
-# =========================
-# Upload AUDIO
-# =========================
 @app.post("/audio/")
 async def upload_audio(file: UploadFile = File(...)):
     if not file.content_type.startswith("audio/"):
@@ -104,21 +84,21 @@ async def upload_audio(file: UploadFile = File(...)):
         content,
         filename=file.filename,
         content_type=file.content_type,
-        metadata={"media_type": "audio"}
+        media_type="audio"
     )
 
-    return {"message": "Audio uploaded", "id": str(file_id)}
+    return {
+        "message": "Audio uploaded successfully",
+        "id": str(file_id)
+    }
 
 
-# =========================
-# Get IMAGE
-# =========================
 @app.get("/images/{file_id}")
 def get_image(file_id: str):
     try:
         file = fs.get(ObjectId(file_id))
 
-        if file.metadata.get("media_type") != "image":
+        if file.media_type != "image":
             raise HTTPException(status_code=400, detail="Not an image file")
 
         return StreamingResponse(
@@ -130,15 +110,12 @@ def get_image(file_id: str):
         raise HTTPException(status_code=404, detail="Image not found")
 
 
-# =========================
-# Get VIDEO
-# =========================
 @app.get("/videos/{file_id}")
 def get_video(file_id: str):
     try:
         file = fs.get(ObjectId(file_id))
 
-        if file.metadata.get("media_type") != "video":
+        if file.media_type != "video":
             raise HTTPException(status_code=400, detail="Not a video file")
 
         return StreamingResponse(
@@ -150,15 +127,12 @@ def get_video(file_id: str):
         raise HTTPException(status_code=404, detail="Video not found")
 
 
-# =========================
-# Get AUDIO
-# =========================
 @app.get("/audio/{file_id}")
 def get_audio(file_id: str):
     try:
         file = fs.get(ObjectId(file_id))
 
-        if file.metadata.get("media_type") != "audio":
+        if file.media_type != "audio":
             raise HTTPException(status_code=400, detail="Not an audio file")
 
         return StreamingResponse(
