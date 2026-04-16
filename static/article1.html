@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Multimedia Content</title>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    line-height: 1.7;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #3b2fc9 0%, #6b5aed 60%, #8b7cf8 100%);
+    color: #fff;
+    text-align: center;
+    padding: 48px 24px 40px;
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+  }
+
+  .main-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 36px auto;
+    padding: 0 24px;
+  }
+
+  @media (max-width: 780px) {
+    .main-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e0dff8;
+    padding: 28px;
+    margin-bottom: 28px;
+  }
+
+  .article-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #3b2fc9;
+    margin-bottom: 18px;
+    border-bottom: 2px solid #e0dff8;
+    padding-bottom: 10px;
+  }
+
+  .article-body p {
+    margin-bottom: 14px;
+  }
+
+  .iterm {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #d0190a;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .iterm-img { color: #c0390a; }
+  .iterm-audio { color: #1a5fbf; }
+  .iterm-video { color: #c0390a; }
+  .iterm-yt { color: #c0390a; }
+
+  .term-icon {
+    font-size: 0.75rem;
+    background: currentColor;
+    color: #fff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .accordion-item {
+    background: #3b2fc9;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .accordion-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: #fff;
+    padding: 0 18px;
+  }
+
+  .accordion-item.open .accordion-body {
+    max-height: 200px;
+    padding: 14px 18px;
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(40,30,120,0.35);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal-box {
+    background: #fff;
+    border-radius: 14px;
+    max-width: 560px;
+    width: 92%;
+    padding: 36px 32px 28px;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  .modal-content img,
+  .modal-content video,
+  .modal-content iframe {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .modal-content audio {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: #888;
+    font-size: 0.85rem;
+    border-top: 1px solid #e0dff8;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>Introduction to Multimedia Content</h1>
+  <p>Click on highlighted terms to explore multimedia content</p>
+</header>
+
+<div class="main-layout">
+
+  <div>
+    
+        <div class="card">
+          <div class="article-title">Section 1</div>
+          <div class="article-body">
+            <p>Multimedia applications combine<strong>images</strong>,
+            <em>videos</em>,
+            audio, and text into a single experience.
+        </p><p>Images are commonly used to visually explain ideas and improve user engagement.</p>
+                <p>
+                    <span class="iterm iterm-img" onclick="openModal('modal-item-1')">
+                        <span class="icon">🖼</span>
+                        Sample image 1 from the multimedia server
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                
+                <p>
+                    <span class="iterm iterm-img" onclick="openModal('modal-item-2')">
+                        <span class="icon">🖼</span>
+                        Sample image 2 from the multimedia server
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                <p>This paragraph contains a<strong>bold text</strong>, an
+            <em>italic text</em>, and a
+            
+                <span class="iterm" onclick="openModal('modal-item-3')">
+                    server homepage link
+                    <span class="term-icon">🔍</span>
+                </span>
+                .
+        </p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="article-title">Section 2</div>
+          <div class="article-body">
+            <p>Videos are useful for tutorials, demonstrations, and storytelling.</p>
+                <p>
+                    <span class="iterm iterm-video" onclick="openModal('modal-item-4')">
+                        <span class="icon">📹</span>
+                        Sample MP4 video from the multimedia server
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                
+                <p>
+                    <span class="iterm iterm-video" onclick="openModal('modal-item-5')">
+                        <span class="icon">📹</span>
+                        Sample MOV video from the multimedia server
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                
+                <p>
+                    <span class="iterm iterm-audio" onclick="openModal('modal-item-6')">
+                        <span class="icon">🔊</span>
+                        Sample MP3 audio explanation
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                
+                <p>
+                    <span class="iterm iterm-audio" onclick="openModal('modal-item-7')">
+                        <span class="icon">🔊</span>
+                        Second MP3 audio example
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                
+                <p>
+                    <span class="iterm" onclick="openModal('modal-item-8')">
+                        Explanation
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="article-title">Section 3</div>
+          <div class="article-body">
+            <p>External resources such as YouTube and websites can be embedded alongside local server media.</p>
+                <p>
+                    <span class="iterm iterm-yt" onclick="openModal('modal-item-9')">
+                        <span class="icon">▶</span>
+                        Sample YouTube Multimedia Video
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                
+                <p>
+                    <span class="iterm" onclick="openModal('modal-item-10')">
+                        Multimedia App Server
+                        <span class="term-icon">🔍</span>
+                    </span>
+                </p>
+                <p>You can use this XML structure in frontend applications to dynamically render<strong>text</strong>,
+            <em>media</em>,
+            links, and embedded content.
+        </p>
+          </div>
+        </div>
+        
+  </div>
+
+  <div class="sidebar">
+    <div class="card">
+      <div class="article-title">Sections</div>
+      
+        <div class="accordion-item" id="acc1">
+          <div class="accordion-header" onclick="toggleAccordion('acc1')">
+            Section 1
+            <span class="accordion-arrow">&#8964;</span>
+          </div>
+          <div class="accordion-body">
+            This section contains interactive multimedia content related to section 1.
+          </div>
+        </div>
+        
+        <div class="accordion-item" id="acc2">
+          <div class="accordion-header" onclick="toggleAccordion('acc2')">
+            Section 2
+            <span class="accordion-arrow">&#8964;</span>
+          </div>
+          <div class="accordion-body">
+            This section contains interactive multimedia content related to section 2.
+          </div>
+        </div>
+        
+        <div class="accordion-item" id="acc3">
+          <div class="accordion-header" onclick="toggleAccordion('acc3')">
+            Section 3
+            <span class="accordion-arrow">&#8964;</span>
+          </div>
+          <div class="accordion-body">
+            This section contains interactive multimedia content related to section 3.
+          </div>
+        </div>
+        
+    </div>
+  </div>
+
+</div>
+
+<footer>Interactive Teaching Platform © 2026</footer>
+
+
+<div class="modal-overlay" id="modal-modal-item-1">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-1')">&times;</button>
+    <div class="modal-content">
+      
+                    <img src="https://multimedia-app-4cw7.onrender.com/images/69e05bdfc4002edfe8484133" alt="Demo image 1" onerror="this.style.display='none'">
+                    <p><strong>Sample image 1 from the multimedia server</strong></p>
+                    <p>Demo image 1</p>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-2">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-2')">&times;</button>
+    <div class="modal-content">
+      
+                    <img src="https://multimedia-app-4cw7.onrender.com/images/69e05be8c4002edfe8484135" alt="Demo image 2" onerror="this.style.display='none'">
+                    <p><strong>Sample image 2 from the multimedia server</strong></p>
+                    <p>Demo image 2</p>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-3">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-3')">&times;</button>
+    <div class="modal-content">
+      
+                    <p style="margin-bottom:12px;"><strong>server homepage link</strong></p>
+                    <a href="https://multimedia-app-4cw7.onrender.com" target="_blank" style="color:#3b2fc9;">https://multimedia-app-4cw7.onrender.com</a>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-4">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-4')">&times;</button>
+    <div class="modal-content">
+      
+                    <video controls>
+                        <source src="https://multimedia-app-4cw7.onrender.com/videos/69e05c7ac4002edfe848413b" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p>Sample MP4 video from the multimedia server</p>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-5">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-5')">&times;</button>
+    <div class="modal-content">
+      
+                    <video controls>
+                        <source src="https://multimedia-app-4cw7.onrender.com/videos/69e05c8cc4002edfe848414b" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p>Sample MOV video from the multimedia server</p>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-6">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-6')">&times;</button>
+    <div class="modal-content">
+      
+                    <audio controls style="width:100%">
+                        <source src="https://multimedia-app-4cw7.onrender.com/audio/69e05ddcc4002edfe8484152" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p>Sample MP3 audio explanation</p>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-7">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-7')">&times;</button>
+    <div class="modal-content">
+      
+                    <audio controls style="width:100%">
+                        <source src="https://multimedia-app-4cw7.onrender.com/audio/69e05de3c4002edfe8484156" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p>Second MP3 audio example</p>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-8">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-8')">&times;</button>
+    <div class="modal-content">
+      <p>Audio and video can work together to create a more interactive learning experience.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-9">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-9')">&times;</button>
+    <div class="modal-content">
+      
+                    <iframe src="https://www.youtube.com/embed/4vQ9QkRLKd0" allowfullscreen></iframe>
+                    <p>Sample YouTube Multimedia Video</p>
+                    
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-modal-item-10">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-modal-item-10')">&times;</button>
+    <div class="modal-content">
+      
+                    <p style="margin-bottom:12px;"><strong>Multimedia App Server</strong></p>
+                    <a href="https://multimedia-app-4cw7.onrender.com" target="_blank" style="color:#3b2fc9;">https://multimedia-app-4cw7.onrender.com</a>
+                    
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function openModal(id) {
+    document.getElementById('modal-' + id).classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(function(m) {
+        m.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+
+  function toggleAccordion(id) {
+    var item = document.getElementById(id);
+    var isOpen = item.classList.contains('open');
+
+    document.querySelectorAll('.accordion-item').forEach(function(el) {
+      el.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>
